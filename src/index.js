@@ -5,7 +5,7 @@ const score = document.querySelector('#score');
 const timerDisplay = document.querySelector('#timer');
 let time = 0;
 let timer;
-let lastHole = 0;
+let lastHole=9;
 let points = 0;
 let difficulty = "hard";
 
@@ -19,7 +19,7 @@ let difficulty = "hard";
  *
  */
 function randomInteger(min, max) {
-  // return Math.floor(Math.random() * (max - min + 1)) + min;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 /**
@@ -38,8 +38,12 @@ function randomInteger(min, max) {
  *
  */
 function setDelay(difficulty) {
-  // TODO: Write your code here.
-  
+  const difficulties = {
+    "easy":1500,
+    "normal":1000,
+    "hard":randomInteger(600,1200)
+  }
+  return difficulties[difficulty];
 }
 
 /**
@@ -57,8 +61,11 @@ function setDelay(difficulty) {
  * chooseHole(holes) //> returns one of the 9 holes that you defined
  */
 function chooseHole(holes) {
-  // TODO: Write your code here.
-
+  const hole = randomInteger(0,8);
+  if (hole !== lastHole) {
+    return holes[hole];
+  }
+  chooseHole(holes);
 }
 
 /**
