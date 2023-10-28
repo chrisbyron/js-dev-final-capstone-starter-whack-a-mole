@@ -6,6 +6,7 @@ const timerDisplay = document.querySelector('#timer');
 let time = 0;
 let timer;
 let lastHole=9;
+let lastMole;
 let points = 0;
 let difficulty = "hard";
 
@@ -174,9 +175,8 @@ function clearScore() {
 *
 */
 function updateTimer() {
-  // TODO: Write your code here.
-  // hint: this code is provided to you in the instructions.
-  
+  time = time > 0 ? (time - 1) : time;
+  timerDisplay.textContent = time;
   return time;
 }
 
@@ -187,8 +187,7 @@ function updateTimer() {
 *
 */
 function startTimer() {
-  // TODO: Write your code here
-  // timer = setInterval(updateTimer, 1000);
+  timer = setInterval(updateTimer, 1000);
   return timer;
 }
 
@@ -203,7 +202,6 @@ function startTimer() {
 function whack(event) {
   updateScore();
   return points;
-  console.log(points)
 }
 
 /**
@@ -213,7 +211,12 @@ function whack(event) {
 */
 function setEventListeners(){
   // TODO: Write your code here
-  moles.forEach(mole => mole.addEventListener("click", whack));
+  moles.forEach(mole => mole.addEventListener("click", function(event){
+    if (event.currentTarget !== lastMole) {
+      whack(event);
+      lastMole = event.currentTarget;
+    }
+  }));
   return moles;
 }
 
@@ -251,6 +254,7 @@ function startGame(){
   setDuration(10);
   clearScore();
   showUp();
+  startTimer();
   return "game started";
 }
 
