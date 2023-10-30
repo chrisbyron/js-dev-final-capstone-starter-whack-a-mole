@@ -3,6 +3,8 @@ const moles = document.querySelectorAll('.mole');
 const startButton = document.querySelector('#start');
 const score = document.querySelector('#score');
 const timerDisplay = document.querySelector('#timer');
+const song = new Audio("../assets/molesong.mp3");
+const hit = new Audio("../assets/hit.mp3");
 let time = 0;
 let timer;
 let lastHole=9;
@@ -200,6 +202,7 @@ function startTimer() {
 *
 */
 function whack(event) {
+  playAudio(hit);
   updateScore();
   return points;
 }
@@ -238,7 +241,7 @@ function setDuration(duration) {
 *
 */
 function stopGame(){
-  // stopAudio(song);  //optional
+  stopAudio(song);
   clearInterval(timer);
   return "game stopped";
 }
@@ -255,7 +258,21 @@ function startGame(){
   clearScore();
   showUp();
   startTimer();
+  loopAudio(song);
   return "game started";
+}
+
+function playAudio(audio) {
+  audio.play();
+}
+
+function loopAudio(audio) {
+  audio.loop = true;
+  playAudio(audio);
+}
+
+function stopAudio(audio) {
+  audio.pause();
 }
 
 startButton.addEventListener("click", startGame);
